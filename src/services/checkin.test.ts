@@ -21,8 +21,8 @@ describe("Check-in Use Case", () => {
 			title: "Academia",
 			description: "teste de academia",
 			phone: "",
-			longitude: new Decimal(0),
-			latitude: new Decimal(0)
+			latitude: new Decimal(-25.4601554),
+			longitude: new Decimal(-49.213212),
 		})
 	})
 
@@ -34,8 +34,8 @@ describe("Check-in Use Case", () => {
 		const {checkIn} = await sut.execute({
 			gymId: "gym-01",
 			userId: "user-01",
-			userLatitude: 0,
-			userLongitude: 0,
+			userLatitude: -25.4601554,
+			userLongitude: -49.213212,
 		})
 
 		expect(checkIn.id).toEqual(expect.any(String))
@@ -47,15 +47,15 @@ describe("Check-in Use Case", () => {
 		await sut.execute({
 			gymId: "gym-01",
 			userId: "user-01",
-			userLatitude: 0,
-			userLongitude: 0,
+			userLatitude: -25.4601554,
+			userLongitude: -49.213212,
 		})
 
 		await expect(() => sut.execute({
 			gymId: "gym-01",
 			userId: "user-01",
-			userLatitude: 0,
-			userLongitude: 0,
+			userLatitude: -25.4601554,
+			userLongitude: -49.213212,
 		})).rejects.toBeInstanceOf(Error)
 	})
 
@@ -65,8 +65,8 @@ describe("Check-in Use Case", () => {
 		await sut.execute({
 			gymId: "gym-01",
 			userId: "user-01",
-			userLatitude: 0,
-			userLongitude: 0,
+			userLatitude: -25.4601554,
+			userLongitude: -49.213212,
 		})
 
 		vi.setSystemTime(new Date(2022, 0, 21, 8, 0, 0))
@@ -74,10 +74,28 @@ describe("Check-in Use Case", () => {
 		const {checkIn} = await sut.execute({
 			gymId: "gym-01",
 			userId: "user-01",
-			userLatitude: 0,
-			userLongitude: 0,
+			userLatitude: -25.4601554,
+			userLongitude: -49.213212,
 		})
 
 		expect(checkIn.id).toEqual(expect.any(String))
+	})
+
+	it("should be able to create a check-in", async () => {
+		gymsRepository.items.push({
+			id: "gym-02",
+			title: "Academia",
+			description: "teste de academia",
+			phone: "",
+			longitude: new Decimal(-25.4601554),
+			latitude: new Decimal(-49.213212)
+		})
+
+		await expect(sut.execute({
+			gymId: "gym-02",
+			userId: "user-01",
+			userLatitude: -25.3996731,
+			userLongitude: -49.1628177,
+		})).rejects.toBeInstanceOf(Error)
 	})
 })
