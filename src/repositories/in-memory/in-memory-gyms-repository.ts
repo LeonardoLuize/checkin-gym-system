@@ -3,7 +3,7 @@ import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coor
 import { Gym, Prisma } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime"
 import { randomUUID } from "crypto"
-import { FindManyNearbyParams, GymsRepository } from "./gyms-repository"
+import { FindManyNearbyParams, GymsRepository } from "../gyms-repository"
 
 export class InMemoryGymsRepository implements GymsRepository {
 	public items: Gym[] = []
