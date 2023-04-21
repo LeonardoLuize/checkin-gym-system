@@ -5,7 +5,6 @@ import { execSync } from "node:child_process"
 import { randomUUID } from "node:crypto"
 import {Environment} from "vitest"
 
-// DATABASE_URL="postgresql://docker:docker@localhost:5432/apisolid?schema=public"
 function generateDataBaseUrl(schema: string){
 	if(!process.env.DATABASE_URL) {
 		throw new Error("Please provide an DATABASE_URL environment variable.")
