@@ -1,14 +1,8 @@
 import { InMemoryCheckInsRepository } from "@/repositories/in-memory/in-memory-checkins-repository"
-import { describe,beforeEach, expect, it, vi, afterEach } from "vitest"
-import { CheckInUseCase } from "./checkin"
-import { InMemoryGymsRepository } from "@/repositories/in-memory/in-memory-gyms-repository"
-import { Decimal } from "@prisma/client/runtime"
-import { MaxDistanceError } from "./errors/max-distance-error"
-import { MaxCheckInsError } from "./errors/max-numbers-of-check-ins-error"
+import { describe,beforeEach, expect, it} from "vitest"
 import { FetchCheckInsHistoryUseCase } from "./fetch-member-check-ins-history"
 
 let checkInsRepository: InMemoryCheckInsRepository
-let gymsRepository: InMemoryGymsRepository
 let 	sut: FetchCheckInsHistoryUseCase
 
 describe("Fetch Check-in History", () => {
