@@ -3,7 +3,7 @@ import { z } from "zod"
 import { InvalidCredentialError } from "@/services/errors/invalid_credential_error"
 import { makeAuthenticateUseCase } from "@/services/factories/make-authenticate-use-case"
 
-export async function authenticate (req: FastifyRequest, reply: FastifyReply) {
+export async function authenticate(req: FastifyRequest, reply: FastifyReply) {
 	const AuthenticateBodySchema = z.object({
 		email: z.string().email(),
 		password: z.string().min(6),
@@ -13,21 +13,30 @@ export async function authenticate (req: FastifyRequest, reply: FastifyReply) {
 
 	try {
 		const authenticateUseCase = makeAuthenticateUseCase()
-		const {user} = await authenticateUseCase.execute({email, password})
+		const { user } = await authenticateUseCase.execute({ email, password })
 
-		const token = await reply.jwtSign({}, {
-			sign: {
-				sub: user.id
+		const token = await reply.jwtSign(
+			{
+				role: user.role,
+			},
+			{
+				sign: {
+					sub: user.id,
+				},
 			}
-		})
+		)
 
-		const refreshToken = await reply.jwtSign({}, {
-			sign: {
-				sub: user.id,
-				expiresIn: "7d",
+		const refreshToken = await reply.jwtSign(
+			{
+				role: user.role,
+			},
+			{
+				sign: {
+					sub: user.id,
+					expiresIn: "7d",
+				},
 			}
-		})
-
+		)
 
 		return reply
 			.setCookie("refreshToken", refreshToken, {
@@ -37,14 +46,12 @@ export async function authenticate (req: FastifyRequest, reply: FastifyReply) {
 				httpOnly: true,
 			})
 			.status(200)
-			.send({token})
-
-	}catch (e) {
-		if(e instanceof InvalidCredentialError){
-			return reply.status(401).send({message: e.message})
+			.send({ token })
+	} catch (e) {
+		if (e instanceof InvalidCredentialError) {
+			return reply.status(401).send({ message: e.message })
 		}
 
 		throw e
 	}
-
 }
