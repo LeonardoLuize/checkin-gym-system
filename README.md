@@ -35,6 +35,9 @@ Then you will need to run the following commands:
 # Download Dependencies
 npm install
 
+# Run docker-compose
+docker compose up -d
+
 # Run prisma migrations
 npx prisma migrate dev
 
