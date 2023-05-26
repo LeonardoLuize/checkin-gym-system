@@ -1,4 +1,4 @@
-<h1 align="center">Node Solid</h1>
+<h1 align="center">Check In Gym System</h1>
 
 <p align="center">A project to learn more about Fastify, Prisma and TDD.</p>
 
